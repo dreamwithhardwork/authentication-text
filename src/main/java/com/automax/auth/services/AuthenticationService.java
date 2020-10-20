@@ -1,10 +1,10 @@
 package com.automax.auth.services;
 
+import com.automax.auth.JwtTokenUtil;
 import com.automax.auth.models.LoginType;
 import com.automax.auth.models.LoginUser;
-import org.models.core.auth.JwtTokenUtil;
-import org.models.core.auth.provider.OtpAuthentication;
-import org.models.core.auth.provider.UsernamePasswordAuthentication;
+import com.automax.auth.provider.OtpAuthentication;
+import com.automax.auth.provider.UsernamePasswordAuthentication;
 import org.models.core.dao.UsersRepository;
 import org.models.core.users.RegisteredUser;
 import org.slf4j.Logger;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 

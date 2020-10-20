@@ -7,6 +7,7 @@ plugins {
 group = 'com.automax.auth'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+targetCompatibility = '11'
 
 repositories {
 	mavenLocal()
@@ -21,7 +22,7 @@ dependencies {
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 	compile('org.springframework.boot:spring-boot-starter-mail')
-	compile 'org.logical.models:logical-models:0.0.1'
+	compile 'com.automax.security:automax-security:0.0.1'
 	annotationProcessor 'org.projectlombok:lombok:1.18.8'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
