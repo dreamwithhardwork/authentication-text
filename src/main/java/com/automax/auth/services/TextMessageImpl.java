@@ -27,7 +27,7 @@ public class TextMessageImpl implements TextMessage {
     @Override
     public boolean sendOtp(String to) {
         Integer code = (int) Math.round(Math.random()*100000);
-        String url = "https://portal.mobtexting.com/api/v2/sms/send?access_token="+api_token+"&message=Your OTP is "+code+"&sender=TXTSMS&to=91"+to+"&service=T";
+        String url = "https://portal.mobtexting.com/api/v2/sms/send?access_token="+api_token+"&message=Your login OTP for automax is "+code+"&sender=TXTSMS&to=91"+to+"&service=T";
         Otp otp = new Otp();
         otp.setDate(new Date());
         otp.setUsername(to);

@@ -32,9 +32,8 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message =  javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(to);
-        helper.setSubject("OTP for naifashiondoor");
-        message.setContent("<div><h4>OTP  </h4><p>"+otpn+"</p></div>","text/html");
-        //helper.setText("<h1>OTP</h1></br><p>"+otpn+"</p>");
+        helper.setSubject("OTP for automax");
+        message.setContent("<div><p>Hello,</p></br> <p>Your login OTP for automax is </p> <h4>"+otpn+"</h4></div>","text/html");
         javaMailSender.send(message);
         return res.getId()!=null;
     }
