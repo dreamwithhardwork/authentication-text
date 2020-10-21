@@ -1,5 +1,6 @@
 package com.automax.auth.controller;
 
+import com.automax.auth.AuthenticationMessagingApplication;
 import com.automax.auth.models.AuthenticationSuccess;
 import com.automax.auth.models.LoginUser;
 import com.automax.auth.services.AuthenticationService;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-@RequestMapping("/auth")
+@RequestMapping(AuthenticationMessagingApplication.PATH+"/user")
 @RestController
 public class UsersController {
 
@@ -32,12 +33,10 @@ public class UsersController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationSuccess> login(@RequestBody @Valid LoginUser user){
-
         List<RegisteredUser> users = usersRepository.findAll();
         String token = authenticationService.login(user);
         AuthenticationSuccess success=new AuthenticationSuccess(token);
         return ResponseEntity.ok(success);
-
     }
 
 
@@ -47,4 +46,6 @@ public class UsersController {
         AuthenticationSuccess success=new AuthenticationSuccess(token);
         return ResponseEntity.ok(success);
     }
+
+
 }

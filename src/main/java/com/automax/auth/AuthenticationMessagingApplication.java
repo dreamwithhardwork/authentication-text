@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableMongoRepositories(basePackages = {"org.models"})
 @EnableSwagger2
 public class AuthenticationMessagingApplication {
-
+	public static final String PATH = "/api/v1";
 	public static void main(String[] args) {
 		SpringApplication.run(AuthenticationMessagingApplication.class, args);
 	}

@@ -1,8 +1,11 @@
 package com.automax.auth.controller;
 
+import com.automax.auth.AuthenticationMessagingApplication;
 import com.automax.auth.services.EmailService;
 import com.automax.auth.services.OtpService;
 import com.automax.auth.services.TextMessage;
+import org.models.core.dao.UsersRepository;
+import org.models.core.users.RegisteredUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +15,16 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 
-@RequestMapping("/otp")
+@RequestMapping(AuthenticationMessagingApplication.PATH+"/otp")
 @RestController
 public class OtpController {
 
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    UsersRepository usersRepository;
 
     @Autowired
     OtpService otpService;
@@ -30,9 +36,11 @@ public class OtpController {
 
     @GetMapping("/send/email/{email}")
     public ResponseEntity<?> getOtp(@PathVariable @Valid @Email String email) throws MessagingException {
+        RegisteredUser user = usersRepository.findOneByEmail(email);
         boolean sent = emailService.sendOtp(email);
-        if(sent)
-            return ResponseEntity.ok("Sent");
+        if(sent){
+            return ResponseEntity.ok(user==null?"Un Registered user":"Registered User");
+        }
         else
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed");
     }
@@ -40,15 +48,12 @@ public class OtpController {
     @GetMapping("/send/text/{mobile}")
     public ResponseEntity<?> sendOtp(@PathVariable  String mobile){
         boolean sent = textMessage.sendOtp(mobile);
-        if(sent)
-            return ResponseEntity.ok("Sent");
+        RegisteredUser user = usersRepository.findOneByEmail(mobile);
+        if(sent){
+            return ResponseEntity.ok(user==null?"Un Registered user":"Registered User");
+        }
         else
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed");
 
-    }
-
-    @GetMapping("/verify")
-    public Boolean isValid(@RequestParam("from")  String from, @RequestParam("otp") Integer otp){
-        return otpService.verifyOtp(from,otp);
     }
 }
