@@ -48,7 +48,7 @@ public class OtpController {
     @GetMapping("/send/text/{mobile}")
     public ResponseEntity<?> sendOtp(@PathVariable  String mobile){
         boolean sent = textMessage.sendOtp(mobile);
-        RegisteredUser user = usersRepository.findOneByEmail(mobile);
+        RegisteredUser user = usersRepository.findOneByMobile(mobile);
         if(sent){
             return ResponseEntity.ok(user==null?"Un Registered user":"Registered User");
         }
