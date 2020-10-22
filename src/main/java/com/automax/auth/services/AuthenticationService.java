@@ -3,6 +3,7 @@ package com.automax.auth.services;
 import com.automax.auth.JwtTokenUtil;
 import com.automax.auth.models.LoginType;
 import com.automax.auth.models.LoginUser;
+import com.automax.auth.models.PasswordReset;
 import com.automax.auth.provider.OtpAuthentication;
 import com.automax.auth.provider.UsernamePasswordAuthentication;
 import org.models.core.dao.UsersRepository;
@@ -10,6 +11,7 @@ import org.models.core.users.RegisteredUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -34,6 +36,9 @@ public class AuthenticationService {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    OtpService otpService;
+
     public String login(LoginUser loginUser){
         Authentication authentication;
         RegisteredUser user = new RegisteredUser();
@@ -54,6 +59,22 @@ public class AuthenticationService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user = usersRepository.save(user);
         return  generateToken(user);
+    }
+
+    public Boolean passwordReset(PasswordReset passwordReset){
+        Boolean valid = otpService.verifyOtp(passwordReset.getUsername(),passwordReset.getOtp());
+        if (!valid) {
+            return  false;
+        }
+        RegisteredUser user = usersRepository.findOneByMobile(passwordReset.getUsername());
+        if(user==null)
+            user = usersRepository.findOneByEmail(passwordReset.getUsername());
+
+        if(user==null)
+            return false;
+        user.setPassword(bCryptPasswordEncoder.encode(passwordReset.getPassword()));
+        usersRepository.save(user);
+        return true;
     }
 
     private Authentication getAuthentication(LoginUser user) {
