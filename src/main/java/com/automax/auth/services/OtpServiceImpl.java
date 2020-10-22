@@ -29,6 +29,6 @@ public class OtpServiceImpl implements OtpService {
         Otp otpFrom = otpRepository.findFirstByUsername(from);
         Date now = new Date();
         Long expiryTime = (now.getTime() - otpFrom.getDate().getTime())/1000;
-        return otpFrom!=null && otpFrom.getOtp().equals(otp) && expiryTime<50;
+        return otpFrom!=null && bCryptPasswordEncoder.matches(String.valueOf(otp),otpFrom.getOtp()) && expiryTime<50;
     }
 }
