@@ -17,6 +17,7 @@ import javax.validation.constraints.Email;
 
 @RequestMapping(AuthenticationMessagingApplication.PATH+"/otp")
 @RestController
+@CrossOrigin(origins = "*")
 public class OtpController {
 
 

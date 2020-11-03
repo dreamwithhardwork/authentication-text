@@ -25,7 +25,7 @@ public class OtpServiceImpl implements OtpService {
     }
 
     @Override
-    public Boolean verifyOtp(String from, Integer otp) {
+    public Boolean verifyOtp(String from, String otp) {
         Otp otpFrom = otpRepository.findFirstByUsername(from);
         Date now = new Date();
         Long expiryTime = (now.getTime() - otpFrom.getDate().getTime())/1000;

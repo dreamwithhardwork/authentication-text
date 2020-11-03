@@ -24,6 +24,7 @@ import java.util.List;
 
 @RequestMapping(AuthenticationMessagingApplication.PATH+"/user")
 @RestController
+@CrossOrigin(origins = "*")
 public class UsersController {
 
 
