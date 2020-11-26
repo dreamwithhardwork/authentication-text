@@ -36,4 +36,11 @@ public class TextMessageImpl implements TextMessage {
         ResponseEntity<String> res = restTemplate.getForEntity(url,String.class);
         return true;
     }
+
+    @Override
+    public boolean sendMessage(String to, String subject) {
+        String url = "https://portal.mobtexting.com/api/v2/sms/send?access_token="+api_token+"&message="+subject+"&sender=TXTSMS&to=91"+to+"&service=T";
+        ResponseEntity<String> res = restTemplate.getForEntity(url,String.class);
+        return  true;
+    }
 }

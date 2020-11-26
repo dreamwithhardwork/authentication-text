@@ -32,8 +32,8 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message =  javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(to);
-        helper.setSubject("OTP for automax");
-        message.setContent("<div><p>Hello,</p></br> <p>Your login OTP for automax is </p> <h4>"+otpn+"</h4></div>","text/html");
+        helper.setSubject("OTP for autoride");
+        message.setContent("<div><p>Hello,</p></br> <p>Your login OTP for autoride is </p> <h4>"+otpn+"</h4></div>","text/html");
         javaMailSender.send(message);
         return res.getId()!=null;
     }
@@ -43,14 +43,17 @@ public class EmailServiceImpl implements EmailService {
     @Override
     @Async
     public void sendEmail(String to, String subject, String body) {
+        MimeMessage message =  javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = null;
         try {
-            System.out.println("Test Async");
-            Thread.sleep(5000);
-        }catch (Exception ex){
-
+            helper = new MimeMessageHelper(message, true);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            message.setContent("<div><p>Hello ,</p></br> <p>" + body+ "</p></div>","text/html");
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
-        System.out.println("Test Async");
-
+        javaMailSender.send(message);
         return;
     }
 
